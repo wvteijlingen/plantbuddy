@@ -8,14 +8,14 @@
 
 import Foundation
 
-struct Plant: Identifiable, Equatable {
+struct Plant: Identifiable, Equatable, Codable {
     let id: UUID
     let name: String
     let type: PlantType
 }
 
-enum PlantType {
-    case indoors, outdoors
+enum PlantType: String, Codable {
+    case indoors = "indoors", outdoors = "outdoors"
 
     var name: String {
         switch self {

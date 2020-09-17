@@ -7,7 +7,7 @@
 //
 
 /// Holds all the state for the entire app.
-struct AppState: Equatable {
+struct AppState: Equatable, Codable {
     var plants: [Plant]
     var selectedPlantsFilter: PlantType?
     var selectedPlantID: Plant.ID?

@@ -22,4 +22,8 @@ enum AppAction {
 
     // Navigation
     case navigateToPlant(withID: Plant.ID?)
+
+    // Persistence
+    case saveState
+    case loadState
 }

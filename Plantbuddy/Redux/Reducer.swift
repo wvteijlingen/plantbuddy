@@ -55,5 +55,22 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment> { state, action, e
         state.plantsFetchInFlight = false
         state.plantsFetchError = "Something went wrong fetching the plants."
         return .none
+
+    /// Save the current state to user defaults.
+    case .saveState:
+        if let encoded = try? JSONEncoder().encode(state) {
+            UserDefaults.standard.set(encoded, forKey: "state")
+        }
+
+        return .none
+
+    /// Load the current state from user defaults.
+    case .loadState:
+        if let savedState = UserDefaults.standard.object(forKey: "state") as? Data {
+            if let decoded = try? JSONDecoder().decode(AppState.self, from: savedState) {
+                state = decoded
+            }
+        }
+        return .none
     }
 }

@@ -58,11 +58,15 @@ struct PlantsList: View {
         }
         .navigationBarItems(
             leading:
-                Button(action: {
-                    ViewStore(self.store).send(.fetchPlants)
-                }, label: {
-                    Image(systemName: "arrow.clockwise")
-                }),
+                HStack {
+                    Button(action: {
+                        ViewStore(self.store).send(.fetchPlants)
+                    }, label: {
+                        Image(systemName: "arrow.clockwise")
+                    })
+                    Button("Save state") { ViewStore(self.store).send(.saveState) }
+                    Button("Load state") { ViewStore(self.store).send(.loadState) }
+                },
             trailing:
                 Button(action: {
                     self.createNewPlant()
@@ -73,7 +77,7 @@ struct PlantsList: View {
     }
 
     private var filterBinding: Binding<Filter> {
-        ViewStore(self.store).binding(
+        ViewStore(store).binding(
             get: {
                 switch $0.selectedPlantsFilter {
                 case nil: return .all
@@ -94,7 +98,7 @@ struct PlantsList: View {
     private func createNewPlant() {
         let type = [PlantType.indoors, PlantType.outdoors].randomElement() ?? .indoors
         let plant = Plant(id: UUID(), name: "New Plant", type: type)
-        ViewStore(self.store).send(.insertPlant(plant))
+        ViewStore(store).send(.insertPlant(plant))
     }
 }
 
